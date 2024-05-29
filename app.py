@@ -108,7 +108,7 @@ while True:
         time.sleep(120)  # Pause for 5 seconds between requests to avoid hitting rate limits
 
     print("Sleeping for 10 minutes...")
-    time.sleep(600)  # Sleep for 10 minutes before running the process again
+    time.sleep(60)  # Sleep for 10 minutes before running the process again
 
 # Close the database connection when the script is terminated
 cursor.close()
