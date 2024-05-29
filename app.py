@@ -105,10 +105,10 @@ while True:
         for tweet in tweets:
             print(f"- {tweet.text}")
             insert_tweet_to_db(username, tweet.created_at, tweet.text, profile_picture_url)
-        time.sleep(120)  # Pause for 5 seconds between requests to avoid hitting rate limits
+        time.sleep(60)  # Pause for 5 seconds between requests to avoid hitting rate limits
 
     print("Sleeping for 10 minutes...")
-    time.sleep(60)  # Sleep for 10 minutes before running the process again
+    time.sleep(300)  # Sleep for 10 minutes before running the process again
 
 # Close the database connection when the script is terminated
 cursor.close()
