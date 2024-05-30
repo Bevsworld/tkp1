@@ -18,38 +18,7 @@ usernames = ["helenebjorklund", "carpebruksort", "IsacssonLars", "backeskog", "l
              "johanbuser", "CarlssonSwe", "JennieNilsson", "adnandibrani", "Aida_Hadzialic", "AnnaCarenS",
              "carinaodebrink", "Niklas1991", "AzraMuranovic", "lenahallengren", "lailanaraghi", "TomasEneroth",
              "Monicahaider", "IdaKarkiainen", "lundhsammeli", "lskold", "walleannas", "johanssonmorgan",
-             "adrianmagnussn", "niklaska", "YasmineB93678", "Socdemola", "Ygeman", "strandhall", "kasirga_kadir",
-             "RedarLawen", "mattiasvepsa", "JytteGuteland", "MKallifatides", "Mirjaraiha", "VencuVelasquez",
-             "magdandersson", "mikaeldamberg", "asawestlund", "NylundWatz", "tegnr", "AnnaVikstrom",
-             "AzadehRojhan", "fredrikolovsson", "Charoline", "shekarabi", "LantzGustaf", "GunillaSvantorp",
-             "DahlqvistMikael", "FromIsak", "hepe", "Bjorn_Wiechel", "asainorberg", "Olle_Thorell", "KGFdirekt",
-             "jarrebringJ", "patrikbjorck", "idaekeroth", "ernkrans", "K_Sundin", "teresacarvalho",
-             "LofstrandJohan1", "Eva_Lindh", "AAlftberg", "SdPontus", "SDTobbe", "AsplingLudvig", "BosseBroman",
-             "mattiasbjo", "AOchristiansson", "DennisDioukarev", "StaffanSEklof", "MatheusEnholm", "SDMattias",
-             "YasmineEriksson", "Eskilandersson", "RashidFarivar", "FranssonJosef", "nimagap", "SaraGille1",
-             "GrubbJorgen", "rogerhedlund", "EHellsborn", "RichardJomshof", "Patrik_J", "sdkarlsson", "Martin_Kinnunen",
-             "JuliaKronlid", "fredriklindahl2", "LindaLindbergs", "AngelicaJkpg", "DavidLaang", "CQuensel",
-             "patrickreslow", "rubbestad", "OscarSjostedt", "JessicaStegrud", "robertstenkvist", "carinaherrstedt",
-             "johnny_svedin", "OlofSallstrom", "bjornsoder", "PerSoderlund_SD", "VTiblom", "BeatriceTimgren",
-             "VingeHenrik", "MartinWestmont", "MarkusWiechel", "LYurkovskiy", "jimmieakesson", "FredrikAhlstedt",
-             "ahlstrom_koster", "annsofiealm", "aanstrell", "kristinaaxol", "beckmansasikter", "jorgen_berglund",
-             "helenabouveng", "Brunsberg", "MCederfelt", "_damsgaard", "idadrougge", "Karinenstrom", "Ericson_ubbhult",
-             "MatsGreenM", "gustafgothberg", "ACHammar", "UlrikaHeindorff", "johornberger", "HultbergJohan",
-             "MarieLouise_HS", "mahoglun", "CHogstrom", "KjellJansson4", "david_josefsson", "ArinKarapet",
-             "moderatkarlsson", "FredrikKarrholm", "SkaraCharlotte", "Spesam", "ErikOttoson", "lassepuess",
-             "AdamDidrik", "EdwardRiedl", "Rosencrantz_J", "OliverRosengren", "annaafsillen", "JesperSkalberg",
-             "Mariastockhaus", "H_Storckenfeldt", "magganschroder", "KattisTolgfors", "JohnWidegren", "viktorwarnick",
-             "AnderssonTay", "AwadNadja", "dadgostarnooshi", "lorena_dv", "fredholmkajsa", "SamuelGonW",
-             "gunnarssonhanna", "Jallow_M", "fornarve", "karlsson_maj", "ragsjo", "hsvenneling", "IlonaWaldau",
-             "ciczie", "jes_wet", "MalinBjork_EU", "Jonnycato", "MuharremDemirok", "anderswjonsson", "annalasses",
-             "UlrikaLiljeberg", "KerstinLundgren", "rickardnordin", "emelienymans", "elisabethtr", "centerhelena",
-             "AdahlAnders", "MartinAadahl", "Y_Aydin82", "MagnusBerntsson", "CamillaBrodin", "gudrunbrunegard",
-             "ChristianCkd", "HansEklind", "TorstenElofsson", "DanHovskar", "magnusjacobsson", "ingemarkihlstro",
-             "MikaelOscarsson", "KAO_KD", "larrysoder", "LeilaAliElmi", "Almericson", "emmaberginger", "matber",
-             "DanielHellden", "AnnikaHirvonen", "LinusLakso", "Rebeckalemoine", "amandalind_", "rasmusling",
-             "emmanohren", "RiiseJan", "KlimatJacob", "ElinSoderbergmp", "UlrikaW",
-             "JoarForssell", "RobertHannah85", "FredrikMalm", "nilsson_elin_", "LinaNordquist", "jakobolofsgard",
-             "ceciliaronn", "AnnaStarbrink"]
+             ]
 
 # Initialize the client and login
 client = Client(language='en-US')
@@ -69,7 +38,7 @@ cursor = conn.cursor()
 def get_last_10_tweets(username):
     try:
         user = client.get_user_by_screen_name(username)
-        tweets = client.get_user_tweets(user.id, tweet_type='Tweets', count=10)
+        tweets = client.get_user_tweets(user.id, tweet_type='Tweets', count=5)
         profile_picture_url = user.profile_image_url  # Fetch profile picture URL
         return tweets, profile_picture_url
     except Exception as e:
@@ -105,10 +74,10 @@ while True:
         for tweet in tweets:
             print(f"- {tweet.text}")
             insert_tweet_to_db(username, tweet.created_at, tweet.text, profile_picture_url)
-        time.sleep(60)  # Pause for 5 seconds between requests to avoid hitting rate limits
+        time.sleep(180)  # Pause for 5 seconds between requests to avoid hitting rate limits
 
     print("Sleeping for 10 minutes...")
-    time.sleep(300)  # Sleep for 10 minutes before running the process again
+    time.sleep(700)  # Sleep for 10 minutes before running the process again
 
 # Close the database connection when the script is terminated
 cursor.close()
