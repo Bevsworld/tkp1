@@ -1,9 +1,11 @@
-from twikit import Client
 import time
 import psycopg2
 import random
 import threading
 import logging
+from twikit import Client
+from unittest.mock import patch
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
@@ -38,7 +40,6 @@ conn = psycopg2.connect(
 )
 cursor = conn.cursor()
 
-
 def get_last_10_tweets(username):
     try:
         user = client.get_user_by_screen_name(username)
@@ -48,7 +49,6 @@ def get_last_10_tweets(username):
     except Exception as e:
         logging.error(f"Error fetching tweets for {username}: {e}")
         return [], None
-
 
 def tweet_exists(username, timestamp):
     try:
@@ -60,7 +60,6 @@ def tweet_exists(username, timestamp):
     except psycopg2.OperationalError as e:
         logging.error(f"OperationalError: {e}")
         raise e
-
 
 def insert_tweet_to_db(username, timestamp, text, profile_picture_url, retries=3, delay=5):
     for attempt in range(retries):
@@ -85,7 +84,6 @@ def insert_tweet_to_db(username, timestamp, text, profile_picture_url, retries=3
             logging.error(f"Error inserting tweet to DB: {e}")
             raise e
 
-
 def keep_alive(interval=300):
     def run():
         while True:
@@ -98,9 +96,12 @@ def keep_alive(interval=300):
 
     threading.Thread(target=run, daemon=True).start()
 
-
 # Call this function once at the start of your application
 keep_alive()
+
+# Simulate input for email address prompt
+with patch('builtins.input', return_value=EMAIL):
+    email = input("Please enter your email: ")
 
 while True:
     random.shuffle(usernames)  # Randomize the order of usernames
